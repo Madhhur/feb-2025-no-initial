@@ -16,6 +16,10 @@ on:
           - dev
           - staging
           - prod
+  workflow_run:
+    workflows: ["Build Workflow"]
+    types:
+      - completed
 
 # ✅ Global environment variables 
 env:
