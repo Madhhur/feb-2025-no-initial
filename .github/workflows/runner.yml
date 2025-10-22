@@ -1,0 +1,29 @@
+name: Deploy Application
+
+on:
+  push:
+    branches: [ main ]
+
+# ✅ Global environment variables 
+env:
+  REGION: us-east-1
+  APP_NAME: myapp
+  
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      BUILD_DIR: test
+   
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+          
+      - name: Print environment variables
+        run: |
+          echo "App: $APP_NAME ${{ secrets.REMOTE_HOST }}"
+          echo "Region: $REGION"
+          echo "Build Dir: $BUILD_DIR"
+          
