@@ -1,7 +1,6 @@
 name: Build Workflow
-
 on:
-     
+    
   workflow_dispatch:
     inputs:
       environment:
@@ -14,11 +13,6 @@ on:
           - staging
           - prod
 
-# ✅ Global environment variables 
-env:
-  REGION: us-east-1
-  APP_NAME: myapp
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -30,9 +24,7 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
           
-      - name: Print environment variables
+      - name: Hello from workflow
         run: |
-          echo "App: $APP_NAME ${{ secrets.REMOTE_HOST }}"
-          echo "Region: $REGION"
-          echo "Build Dir: $BUILD_DIR"
+          echo "Hello from the build area"
           
