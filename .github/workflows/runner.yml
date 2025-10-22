@@ -2,7 +2,20 @@ name: Deploy Application
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+      
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to deploy to"
+        required: true
+        default: "dev"
+        type: choice
+        options:
+          - dev
+          - staging
+          - prod
 
 # ✅ Global environment variables 
 env:
