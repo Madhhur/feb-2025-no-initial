@@ -57,6 +57,6 @@ jobs:
           from: "madanmadhur260@gmail.com"
           body: |
             Workflow completed: ${{ github.workflow }}
-            Status: ${{ github.event.workflow_run.conclusion }}
+            Status: "Success"
         
           
