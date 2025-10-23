@@ -44,4 +44,19 @@ jobs:
           echo "App: $APP_NAME ${{ secrets.REMOTE_HOST }}"
           echo "Region: $REGION"
           echo "Build Dir: $BUILD_DIR"
+  
+      - name: Send email
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: "madanmadhur260@gmail.com"
+          password: ${{ secrets.GMAIL }}
+          subject: "GitHub Action Notification"
+          to: "madhur9492@gmail.com"
+          from: "madanmadhur260@gmail.com"
+          body: |
+            Workflow completed: ${{ github.workflow }}
+            Status: ${{ github.event.workflow_run.conclusion }}
+        
           
