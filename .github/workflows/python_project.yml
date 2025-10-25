@@ -49,11 +49,11 @@ jobs:
       # 3️⃣ Build Docker image
       - name: Build Docker image and push to docker hub
         run: | 
-          docker build -t myapp:latest .
-          docker tag myapp:latest ${{ secrets.DOCKER_USERNAME }}/myapp:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/myapp:latest
+          docker build -t myapp:${{ github.ref_name }} .
+          docker tag myapp:${{ github.ref_name }} ${{ secrets.DOCKER_USERNAME }}/myapp:${{ github.ref_name }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/myapp:${{ github.ref_name }}
 
        # 4️⃣ Run container (optional: for testing)
       - name: Run Docker container
-        run: docker run --rm myapp:latest 
+        run: docker run --rm myapp:${{ github.ref_name }}
           
