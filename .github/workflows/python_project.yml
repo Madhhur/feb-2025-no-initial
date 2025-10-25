@@ -31,5 +31,7 @@ jobs:
           
       - name: Print environment variables
         run: |
-          make ci
+          make setup
+          make tesp
+          make lint
           
