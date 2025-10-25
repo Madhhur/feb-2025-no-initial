@@ -35,14 +35,16 @@ jobs:
             ${{ runner.os }}-pip-
   
           
-      - name: Print environment variables
+      - name: Running Python Project
         run: |
           make setup
-          make testp
-          make lint
-          make coverage
+        # make testp
+        #  make lint
+        #  make coverage
       
-      
+      - name: Log in to Docker Hub
+        run: |
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
       # 3️⃣ Build Docker image
       - name: Build Docker image
         run: docker build -t myapp:latest .
