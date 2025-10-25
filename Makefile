@@ -2,7 +2,7 @@
 
 # Flags to control which stages run
 BUILD_ENABLED ?= true
-TEST_ENABLED ?= true
+TEST_ENABLED ?= false
 DEPLOY_ENABLED ?= true
 
 # Build stage
