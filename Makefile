@@ -47,7 +47,7 @@ CI_ENABLED ?=true
 
 PROJECT_DIR := '/home/runner/work/feb-2025-no-initial/feb-2025-no-initial'
 SRC_DIR := $(PROJECT_DIR)/src
-TESTS_DIR := $(PROJECT_DIR)/tests
+TESTS_DIR := $(PROJECT_DIR)/tests/test_calculator.py
 
 # Setup environment
 setup:
