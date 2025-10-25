@@ -52,7 +52,8 @@ TESTS_DIR := $(PROJECT_DIR)/tests
 # Setup environment
 setup:
 	@if [ "$(SETUP_ENABLED)" = "true" ]; then \
-		echo "🔨 SETUP stage running... $(pwd)"; \
+		echo "🔨 SETUP stage running 123... $$(pwd)"; \
+        echo "🔨 SETUP stage running 123... $$(ls)"; \
 		pip install -r /home/ubuntu/requirements.txt; \
 	else \
 		echo "⏭️ SETUP stage skipped"; \
