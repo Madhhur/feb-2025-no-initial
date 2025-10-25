@@ -55,7 +55,7 @@ setup:
 		echo "🔨 SETUP stage running 123... $$(pwd)"; \
         echo "🔨 SETUP stage running 123... $$(ls)"; \
           echo "🔨 SETUP stage running 123... $(ls) $(pwd)"; \
-		pip install -r $(PROJECT_DIR)/requirements.txt; \
+		pip install -r /home/runner/work/feb-2025-no-initial/feb-2025-no-initial/requirements.txt; \
 	else \
 		echo "⏭️ SETUP stage skipped"; \
 	fi
