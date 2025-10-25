@@ -45,7 +45,9 @@ jobs:
           echo "Region: $REGION"
           echo "Build Dir: $BUILD_DIR"
       - name: Run Makefile stages
-        run: make all
+        run: | 
+          make build
+          make test
       
       - name: Send email
         uses: dawidd6/action-send-mail@v3
