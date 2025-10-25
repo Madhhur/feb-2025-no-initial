@@ -32,3 +32,27 @@ deploy:
 # Run all stages
 all: build test deploy
 	@echo "✅ All stages completed!"
+
+
+
+# Makefile for Python project
+
+# Setup environment
+setup:
+	pip install -r requirements.txt
+
+# Lint code
+lint:
+	flake8 src/ tests/
+
+# Run tests
+testp:
+	pytest tests/
+
+# Run tests with coverage report
+coverage:
+	pytest --cov=src tests/
+
+# Full CI/CD pipeline
+ci: setup lint test coverage
+
