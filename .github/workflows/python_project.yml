@@ -48,19 +48,20 @@ jobs:
       - name: Get latest tag
         run: |
          git fetch --tags
-         LATEST_TAG=$(git describe --tags --always)
+         LATEST_TAG=$(git tag --sort=-creatordate | head -n 1)
          echo "Latest tag is $LATEST_TAG"
+
        
         
           
       # 3️⃣ Build Docker image
       - name: Build Docker image and push to docker hub
         run: | 
-          docker build -t myapp:$LATEST_TAG .
-          docker tag myapp:$LATEST_TAG ${{ secrets.DOCKER_USERNAME }}/myapp:$LATEST_TAG
-          docker push ${{ secrets.DOCKER_USERNAME }}/myapp:$LATEST_TAG
+          docker build -t myapp:${LATEST_TAG} .
+          docker tag myapp:${LATEST_TAG} ${{ secrets.DOCKER_USERNAME }}/myapp:${LATEST_TAG}
+          docker push ${{ secrets.DOCKER_USERNAME }}/myapp:${LATEST_TAG}
 
        # 4️⃣ Run container (optional: for testing)
       - name: Run Docker container
-        run: docker run --rm myapp:$LATEST_TAG
+        run: docker run --rm myapp:${LATEST_TAG}
           
