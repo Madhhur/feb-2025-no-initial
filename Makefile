@@ -33,26 +33,68 @@ deploy:
 all: build test deploy
 	@echo "✅ All stages completed!"
 
+###########################################################################################
+
+####################### Makefile for Python project #######################################
+
+###########################################################################################
+# Flags to control which stages run
+SETUP_ENABLED ?= true
+LINT_ENABLED ?= true
+TESTP_ENABLED ?= true
+COVERAGE_ENABLED ?= true
+CI_ENABLED ?=true
 
 
-# Makefile for Python project
 
 # Setup environment
 setup:
-	pip install -r requirements.txt
+	@if [ "$(SETUP_ENABLED)" = "true" ]; then \
+		echo "🔨 SETUP stage running..."; \
+        pip install -r requirements.txt; \
+	else \
+		echo "⏭️ SETUP stage skipped"; \
+	fi
 
 # Lint code
+
 lint:
-	flake8 src/ tests/
+	@if [ "$(LINT_ENABLED)" = "true" ]; then \
+		echo "🔨 lint stage running..."; \
+        flake8 src/ tests/; \
+	else \
+		echo "⏭️ lint stage skipped"; \
+	fi
 
 # Run tests
+
 testp:
-	pytest tests/
+	@if [ "$(TESTP_ENABLED)" = "true" ]; then \
+		echo "🔨 TEST stage running..."; \
+    	pytest tests/; \
+	else \
+		echo "⏭️ TEST stage skipped"; \
+	fi
+
 
 # Run tests with coverage report
 coverage:
-	pytest --cov=src tests/
+	@if [ "$(COVERAGE_ENABLED)" = "true" ]; then \
+		echo "🔨 COVERAGE stage running..."; \
+    	pytest --cov=src tests/; \
+	else \
+		echo "⏭️ COVERAGE stage skipped"; \
+	fi
 
+	
 # Full CI/CD pipeline
-ci: setup lint test coverage
-
+ 
+ci:
+echo "🚀 CI/CD pipeline running..."; \
+		$(MAKE) setup; \
+		$(MAKE) lint; \
+		$(MAKE) test; \
+		$(MAKE) coverage; \
+	else \
+		echo "⏭️ CI/CD pipeline skipped"; \
+	fi
