@@ -45,11 +45,14 @@ TESTP_ENABLED ?= true
 COVERAGE_ENABLED ?= true
 CI_ENABLED ?=true
 
+PROJECT_DIR := /home/ubuntu/my_python_project
+SRC_DIR := $(PROJECT_DIR)/src
+TESTS_DIR := $(PROJECT_DIR)/tests
 
 # Setup environment
 setup:
 	@if [ "$(SETUP_ENABLED)" = "true" ]; then \
-		echo "🔨 SETUP stage running..."; \
+		echo "🔨 SETUP stage running...$(pwd)"; \
 		pip install -r requirements.txt; \
 	else \
 		echo "⏭️ SETUP stage skipped"; \
@@ -59,7 +62,7 @@ setup:
 lint:
 	@if [ "$(LINT_ENABLED)" = "true" ]; then \
 		echo "🔍 LINT stage running..."; \
-		flake8 src/ tests/; \
+		flake8 $(SRC_DIR) $(TESTS_DIR); \
 	else \
 		echo "⏭️ LINT stage skipped"; \
 	fi
@@ -68,7 +71,7 @@ lint:
 testp:
 	@if [ "$(TESTP_ENABLED)" = "true" ]; then \
 		echo "🧪 TEST stage running..."; \
-		pytest tests/; \
+		pytest $(TESTS_DIR)/; \
 	else \
 		echo "⏭️ TEST stage skipped"; \
 	fi
@@ -77,7 +80,7 @@ testp:
 coverage:
 	@if [ "$(COVERAGE_ENABLED)" = "true" ]; then \
 		echo "📊 COVERAGE stage running..."; \
-		pytest --cov=src tests/; \
+		pytest --cov=src $(TESTS_DIR)/;  \
 	else \
 		echo "⏭️ COVERAGE stage skipped"; \
 	fi
