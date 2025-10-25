@@ -46,54 +46,49 @@ COVERAGE_ENABLED ?= true
 CI_ENABLED ?=true
 
 
-
 # Setup environment
 setup:
 	@if [ "$(SETUP_ENABLED)" = "true" ]; then \
 		echo "🔨 SETUP stage running..."; \
-        pip install -r requirements.txt; \
+		pip install -r requirements.txt; \
 	else \
 		echo "⏭️ SETUP stage skipped"; \
 	fi
 
 # Lint code
-
 lint:
 	@if [ "$(LINT_ENABLED)" = "true" ]; then \
-		echo "🔨 lint stage running..."; \
-        flake8 src/ tests/; \
+		echo "🔍 LINT stage running..."; \
+		flake8 src/ tests/; \
 	else \
-		echo "⏭️ lint stage skipped"; \
+		echo "⏭️ LINT stage skipped"; \
 	fi
 
 # Run tests
-
 testp:
 	@if [ "$(TESTP_ENABLED)" = "true" ]; then \
-		echo "🔨 TEST stage running..."; \
-    	pytest tests/; \
+		echo "🧪 TEST stage running..."; \
+		pytest tests/; \
 	else \
 		echo "⏭️ TEST stage skipped"; \
 	fi
 
-
 # Run tests with coverage report
 coverage:
 	@if [ "$(COVERAGE_ENABLED)" = "true" ]; then \
-		echo "🔨 COVERAGE stage running..."; \
-    	pytest --cov=src tests/; \
+		echo "📊 COVERAGE stage running..."; \
+		pytest --cov=src tests/; \
 	else \
 		echo "⏭️ COVERAGE stage skipped"; \
 	fi
 
-	
 # Full CI/CD pipeline
- 
 ci:
-echo "🚀 CI/CD pipeline running..."; \
+	@if [ "$(CI_ENABLED)" = "true" ]; then \
+		echo "🚀 CI/CD pipeline running..."; \
 		$(MAKE) setup; \
 		$(MAKE) lint; \
-		$(MAKE) test; \
+		$(MAKE) testp; \
 		$(MAKE) coverage; \
 	else \
 		echo "⏭️ CI/CD pipeline skipped"; \
