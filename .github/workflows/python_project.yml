@@ -21,8 +21,6 @@ jobs:
   python_project:
     if: ${{ github.event.inputs.environment == 'prod' }}
     runs-on: ubuntu-latest
-    env:
-      BUILD_DIR: test
    
 
     steps:
@@ -32,6 +30,7 @@ jobs:
       - name: Print environment variables
         run: |
           make setup
-          make tesp
+          make testp
           make lint
+          make coverage
           
