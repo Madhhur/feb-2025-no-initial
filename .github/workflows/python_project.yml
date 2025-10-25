@@ -1,0 +1,35 @@
+name: Python Application
+
+on:
+#  push:
+ #   branches:
+  #    - main
+      
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to deploy to"
+        required: true
+        default: "dev"
+        type: choice
+        options:
+          - dev
+          - staging
+          - prod
+
+jobs:
+  python_project:
+    if: ${{ github.event.inputs.environment == 'prod' }}
+    runs-on: ubuntu-latest
+    env:
+      BUILD_DIR: test
+   
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+          
+      - name: Print environment variables
+        run: |
+          make ci
+          
