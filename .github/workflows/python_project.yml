@@ -50,7 +50,7 @@ jobs:
          git fetch --tags
          LATEST_TAG=$(git tag --sort=-creatordate | head -n 1)
          echo "Latest tag is $LATEST_TAG"
-         echo "$LATEST_TAG" >> $GITHUB_ENV
+         echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
 
        
         
@@ -58,11 +58,11 @@ jobs:
       # 3️⃣ Build Docker image
       - name: Build Docker image and push to docker hub
         run: | 
-          docker build -t myapp:$GITHUB_ENV .
-          docker tag myapp:$GITHUB_ENV ${{ secrets.DOCKER_USERNAME }}/myapp:$GITHUB_ENV
-          docker push ${{ secrets.DOCKER_USERNAME }}/myapp:$GITHUB_ENV
+          docker build -t myapp:$LATEST_TAG .
+          docker tag myapp:$LATEST_TAG ${{ secrets.DOCKER_USERNAME }}/myapp:$LATEST_TAG
+          docker push ${{ secrets.DOCKER_USERNAME }}/myapp:$LATEST_TAG
 
        # 4️⃣ Run container (optional: for testing)
       - name: Run Docker container
-        run: docker run --rm myapp:$GITHUB_ENV
+        run: docker run --rm myapp:$LATEST_TAG
           
