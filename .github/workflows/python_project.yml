@@ -41,4 +41,12 @@ jobs:
           make testp
           make lint
           make coverage
+      
+      
+      # 3️⃣ Build Docker image
+      - name: Build Docker image
+        run: docker build -t myapp:latest .
+      # 3️⃣ Build Docker image
+      - name: Build Docker image
+        run: docker build -t myapp:latest .         
           
