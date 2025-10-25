@@ -45,7 +45,7 @@ TESTP_ENABLED ?= true
 COVERAGE_ENABLED ?= true
 CI_ENABLED ?=true
 
-PROJECT_DIR := /home/ubuntu/my_python_project
+PROJECT_DIR := '/home/runner/work/feb-2025-no-initial/feb-2025-no-initial'
 SRC_DIR := $(PROJECT_DIR)/src
 TESTS_DIR := $(PROJECT_DIR)/tests
 
@@ -54,7 +54,8 @@ setup:
 	@if [ "$(SETUP_ENABLED)" = "true" ]; then \
 		echo "🔨 SETUP stage running 123... $$(pwd)"; \
         echo "🔨 SETUP stage running 123... $$(ls)"; \
-		pip install -r /home/ubuntu/requirements.txt; \
+          echo "🔨 SETUP stage running 123... $(ls) $(pwd)"; \
+		pip install -r $(PROJECT_DIR)/requirements.txt; \
 	else \
 		echo "⏭️ SETUP stage skipped"; \
 	fi
