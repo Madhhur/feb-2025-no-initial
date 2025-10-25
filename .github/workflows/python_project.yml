@@ -48,7 +48,7 @@ jobs:
       - name: Get latest tag
         run: |
          git fetch --tags
-         LATEST_TAG=$(git describe --tags --abbrev=0)
+         LATEST_TAG=$(git describe --tags --always)
          echo "Latest tag is $LATEST_TAG"
        
         
