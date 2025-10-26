@@ -1,0 +1,34 @@
+name: Build and Push Docker Image with Kaniko
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Google Cloud SDK (for Kaniko executor)
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: dummy-project
+          install_components: "docker-credential-gcr"
+
+      - name: Build and push Docker image using Kaniko
+        uses: gcr.io/kaniko-project/executor:latest
+        with:
+          args: >
+            --context ${{ github.workspace }} 
+            --dockerfile ${{ github.workspace }}/Dockerfile
+            --destination dockerhubusername/myapp:latest
+            --oci-layout-path /kaniko/oci
+            --skip-tls-verify
+        env:
+          DOCKER_CONFIG: /kaniko/.docker/
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
