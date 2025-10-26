@@ -1,34 +1,40 @@
-name: Build and Push Docker Image with Kaniko
+name: test
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to deploy to"
+        required: true
+        default: "dev"
+        type: choice
+        options:
+          - dev
+          - staging
+          - prod
 
 jobs:
   build-and-push:
     runs-on: self-hosted
+    container:
+      image: gcr.io/kaniko-project/executor:latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Google Cloud SDK (for Kaniko executor)
-        uses: google-github-actions/setup-gcloud@v1
-        with:
-          project_id: dummy-project
-          install_components: "docker-credential-gcr"
-
-      - name: Build and push Docker image using Kaniko
-        uses: gcr.io/kaniko-project/executor:latest
-        with:
-          args: >
-            --context ${{ github.workspace }} 
-            --dockerfile ${{ github.workspace }}/Dockerfile
-            --destination dockerhubusername/myapp:latest
-            --oci-layout-path /kaniko/oci
-            --skip-tls-verify
+      - name: Configure Docker credentials
+        run: |
+          mkdir -p /kaniko/.docker
+          echo "{\"auths\":{\"https://index.docker.io/v1/\":{\"username\":\"${DOCKER_USERNAME}\",\"password\":\"${DOCKER_PASSWORD}\"}}}" > /kaniko/.docker/config.json
         env:
-          DOCKER_CONFIG: /kaniko/.docker/
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image using Kaniko
+        run: |
+          /kaniko/executor \
+            --context ${{ github.workspace }} \
+            --dockerfile ${{ github.workspace }}/Dockerfile \
+            --destination madhhur168/myapp:latest \
+            --skip-tls-verify
