@@ -20,7 +20,7 @@ on:
 jobs:
   python_project:
     if: ${{ github.event.inputs.environment == 'prod' }}
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
    
 
     steps:
