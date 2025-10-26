@@ -26,6 +26,18 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
+      - name: Install Python and pip
+        run: |
+         sudo apt-get update
+         sudo apt-get install -y python3 python3-pip make docker.io
+
+      - name: Verify installations
+        run: |
+         python3 --version
+         pip3 --version
+         make --version
+         docker --version
+        
       - name: Cache Python packages
         uses: actions/cache@v3
         with:
