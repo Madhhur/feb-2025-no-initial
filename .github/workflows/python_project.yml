@@ -50,10 +50,7 @@ jobs:
         # make testp
         #  make lint
         #  make coverage
-      - name: Install Docker
-        run: |
-         apt-get update
-         apt-get install -y docker.io
+   
 
       - name: Start Docker daemon
         run: |
