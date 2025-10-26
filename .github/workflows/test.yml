@@ -1,9 +1,6 @@
-name: Build and Push Docker Image with Kaniko
+name: kaniko-build
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 jobs:
@@ -13,7 +10,7 @@ jobs:
       image: gcr.io/kaniko-project/executor:latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v3
 
       - name: Configure Docker Hub credentials
@@ -24,7 +21,7 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push Docker image
+      - name: Build and push image
         run: |
           /kaniko/executor \
             --context ${{ github.workspace }} \
