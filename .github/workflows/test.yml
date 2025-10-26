@@ -1,4 +1,4 @@
-name: test-kaniko
+name: test-kaniko-build
 
 on:
   workflow_dispatch:
@@ -13,6 +13,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Create a tiny test Dockerfile
+        run: |
+          echo -e "FROM busybox\nCMD echo 'Hello Kaniko'" > Dockerfile
+
       - name: Configure Docker Hub credentials
         run: |
           mkdir -p /kaniko/.docker
@@ -26,5 +30,5 @@ jobs:
           /kaniko/executor \
             --context ${{ github.workspace }} \
             --dockerfile ${{ github.workspace }}/Dockerfile \
-            --destination madhhur168/myapp:latest \
+            --destination madhhur168/kaniko-test:latest \
             --skip-tls-verify
