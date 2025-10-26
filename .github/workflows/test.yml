@@ -1,6 +1,9 @@
-name: kaniko-test
+name: Build and Push Docker Image with Kaniko
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
@@ -10,14 +13,10 @@ jobs:
       image: gcr.io/kaniko-project/executor:latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Create simple Dockerfile
-        run: |
-          echo -e "FROM busybox\nCMD echo 'Hello Kaniko'" > Dockerfile
-
-      - name: Set Docker credentials
+      - name: Configure Docker Hub credentials
         run: |
           mkdir -p /kaniko/.docker
           echo "{\"auths\":{\"https://index.docker.io/v1/\":{\"username\":\"${DOCKER_USERNAME}\",\"password\":\"${DOCKER_PASSWORD}\"}}}" > /kaniko/.docker/config.json
@@ -25,10 +24,10 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push image with Kaniko
+      - name: Build and push Docker image
         run: |
           /kaniko/executor \
             --context ${{ github.workspace }} \
             --dockerfile ${{ github.workspace }}/Dockerfile \
-            --destination madhhur168/kaniko-test:latest \
+            --destination madhhur168/myapp:latest \
             --skip-tls-verify
