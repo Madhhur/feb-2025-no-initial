@@ -1,0 +1,30 @@
+name: kaniko-build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    runs-on: self-hosted
+    container:
+      image: gcr.io/kaniko-project/executor:latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Configure Docker Hub credentials
+        run: |
+          mkdir -p /kaniko/.docker
+          echo "{\"auths\":{\"https://index.docker.io/v1/\":{\"username\":\"${DOCKER_USERNAME}\",\"password\":\"${DOCKER_PASSWORD}\"}}}" > /kaniko/.docker/config.json
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push image
+        run: |
+          /kaniko/executor \
+            --context ${{ github.workspace }} \
+            --dockerfile ${{ github.workspace }}/Dockerfile \
+            --destination madhhur168/myapp:latest \
+            --skip-tls-verify
