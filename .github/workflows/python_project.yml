@@ -16,6 +16,9 @@ on:
           - dev
           - staging
           - prod
+concurrency:
+  group: my-workflow
+  cancel-in-progress: true
 
 jobs:
   python_project:
